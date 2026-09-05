@@ -1,0 +1,49 @@
+[
+  {
+    "id": 1,
+    "number": "MN-1001",
+    "userId": 3,
+    "name": "Test User",
+    "email": "test@example.com",
+    "address": "1 Rue Test",
+    "city": "Paris",
+    "zip": "75003",
+    "country": "France",
+    "items": [
+      {
+        "id": 1,
+        "name": "Signature Noir Tee",
+        "price": 89,
+        "qty": 2
+      }
+    ],
+    "total": 178,
+    "status": "shipped",
+    "createdAt": "2026-09-05T13:19:51.390Z"
+  },
+  {
+    "id": 2,
+    "number": "MN-1002",
+    "userId": 2,
+    "name": "Demo Customer",
+    "email": "customer@maisonnoir.com",
+    "address": "5 Ave Montaigne",
+    "city": "Paris",
+    "zip": "75008",
+    "country": "France",
+    "items": [
+      {
+        "id": 1,
+        "name": "Signature Noir Tee",
+        "price": 89,
+        "qty": 2
+      }
+    ],
+    "subtotal": 178,
+    "discount": 17.8,
+    "couponCode": "WELCOME10",
+    "total": 160.2,
+    "status": "cancelled",
+    "createdAt": "2026-09-05T18:28:52.620Z"
+  }
+]

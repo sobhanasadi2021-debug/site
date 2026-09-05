@@ -1,0 +1,27 @@
+Maison Noir is open at http://localhost:3000
+Admin login:  admin@maisonnoir.com / admin123
+Demo account: customer@maisonnoir.com / customer123
+ReferenceError: C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\views\product.ejs:1
+ >> 1| <%- include('partials/head') %>
+    2| <%- include('partials/header') %>
+    3| 
+    4| <section class="section product-page">
+
+C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\views\partials\head.ejs:2
+    1| <!DOCTYPE html>
+ >> 2| <html lang="<%= lang %>" dir="<%= dir %>">
+    3| <head>
+    4|   <meta charset="UTF-8">
+    5|   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+lang is not defined
+    at eval ("C:\\Users\\Sobhan\\.zcode\\workspace\\default\\luxury-shop\\views\\partials\\head.ejs":12:26)
+    at head (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at include (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\ejs\lib\cjs\ejs.js:634:47)
+    at eval ("C:\\Users\\Sobhan\\.zcode\\workspace\\default\\luxury-shop\\views\\product.ejs":10:17)
+    at product (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\ejs\lib\cjs\ejs.js:643:23)
+    at tryHandleCache (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\ejs\lib\cjs\ejs.js:253:42)
+    at ejs.renderFile [as engine] (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\ejs\lib\cjs\ejs.js:444:12)
+    at View.render (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\express\lib\view.js:139:8)
+    at tryRender (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\express\lib\application.js:627:10)
+    at app.render (C:\Users\Sobhan\.zcode\workspace\default\luxury-shop\node_modules\express\lib\application.js:574:3)

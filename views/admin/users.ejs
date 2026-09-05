@@ -1,0 +1,56 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <h1 class="admin-title">Users</h1>
+
+      <div class="filter-tabs">
+        <% [['all','All'],['admin','Admins'],['user','Customers']].forEach(function(pair){ %>
+          <a href="/admin/users?role=<%= pair[0] %><%= q ? '&q=' + encodeURIComponent(q) : '' %>" class="<%= role === pair[0] ? 'active' : '' %>"><%= pair[1] %></a>
+        <% }) %>
+      </div>
+
+      <form class="filter-bar" method="get" action="/admin/users">
+        <input type="hidden" name="role" value="<%= role %>">
+        <input type="search" name="q" placeholder="Search by name or email…" value="<%= q %>">
+        <button class="btn btn-small btn-outline">Search</button>
+      </form>
+
+      <table class="table card">
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Orders</th><th>Joined</th><th>Actions</th></tr></thead>
+        <tbody>
+          <% users.forEach(function(u){ %>
+            <tr>
+              <td><%= u.name %><% if (u.id === user.id) { %> <span class="muted">(you)</span><% } %></td>
+              <td><%= u.email %></td>
+              <td>
+                <form method="post" action="/admin/users/<%= u.id %>/role" class="inline-form">
+                  <select name="role" onchange="this.form.submit()" <%= u.id === user.id ? 'disabled' : '' %>>
+                    <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>user</option>
+                    <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>admin</option>
+                  </select>
+                </form>
+              </td>
+              <td><%= u.orders %></td>
+              <td><%= new Date(u.createdAt).toLocaleDateString() %></td>
+              <td>
+                <% if (u.id !== user.id) { %>
+                  <form method="post" action="/admin/users/<%= u.id %>/delete" class="inline-form"
+                        onsubmit="return confirm('Delete user <%= u.name %>?')">
+                    <button class="btn btn-small btn-danger">Delete</button>
+                  </form>
+                <% } else { %>—<% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

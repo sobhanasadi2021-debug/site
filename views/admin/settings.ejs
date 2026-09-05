@@ -1,0 +1,42 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <h1 class="admin-title">Boutique Settings</h1>
+
+      <% if (saved) { %><p class="form-success">Settings saved — the boutique is updated.</p><% } %>
+
+      <form class="card product-form" method="post" action="/admin/settings">
+        <div class="two-col">
+          <label>Store Name (header & footer)
+            <input type="text" name="storeName" required value="<%= settings.storeName %>">
+          </label>
+          <label>Tagline
+            <input type="text" name="tagline" value="<%= settings.tagline %>">
+          </label>
+        </div>
+        <label>Free Shipping Threshold (USD)
+          <input type="number" name="freeShippingThreshold" min="0" step="1" value="<%= settings.freeShippingThreshold %>">
+        </label>
+        <label>Contact Email (footer & contact page)
+          <input type="email" name="email" value="<%= settings.email %>">
+        </label>
+        <label>Phone
+          <input type="text" name="phone" value="<%= settings.phone %>">
+        </label>
+        <label>Address Line (footer & contact page)
+          <input type="text" name="addressLine" value="<%= settings.addressLine %>">
+        </label>
+        <div class="center-btn">
+          <button type="submit" class="btn btn-gold">Save Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

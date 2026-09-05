@@ -1,0 +1,59 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="section product-page">
+  <div class="container product-layout">
+    <div class="product-media">
+      <img src="<%= product.image %>" alt="<%= product.name %>">
+    </div>
+    <div class="product-info">
+      <p class="eyebrow"><%= catLocalized(categories.find(function(c){ return c.slug === product.category; }) || {name_fa: product.category, name: product.category}) %></p>
+      <h1><%= product.name %></h1>
+      <p class="product-price"><%= price(product.price) %></p>
+
+      <p class="stock-line <%= (product.stock || 0) <= 0 ? 'out' : ((product.stock || 0) <= 5 ? 'low' : 'ok') %>">
+        <% if ((product.stock || 0) <= 0) { %>● <%= t.out_of_stock %>
+        <% } else if ((product.stock || 0) <= 5) { %>● <%= t.low_stock %>
+        <% } else { %>● <%= t.in_stock %><% } %>
+      </p>
+
+      <p class="product-desc"><%= product.description %></p>
+
+      <ul class="product-perks">
+        <li><%= t.perk_1 %></li>
+        <li><%= t.perk_2 %></li>
+        <li><%= t.perk_3 %></li>
+      </ul>
+
+      <div class="product-actions">
+        <button class="btn btn-gold btn-wide add-to-bag"
+          data-id="<%= product.id %>" data-name="<%= product.name %>"
+          data-price="<%= product.price %>" data-image="<%= product.image %>"
+          <%= (product.stock || 0) <= 0 ? 'disabled style="opacity:.4;cursor:not-allowed"' : '' %>>
+          <%= (product.stock || 0) <= 0 ? t.out_of_stock : t.add_to_bag + ' — ' + price(product.price) %>
+        </button>
+        <a href="/cart" class="btn btn-outline btn-wide"><%= t.view_bag %></a>
+        <% if (user) { %>
+          <button class="wishlist-btn <%= wishlisted ? 'active' : '' %>" data-id="<%= product.id %>" aria-label="Wishlist">
+            <%= wishlisted ? '♥' : '♡' %> <span><%= t.wishlist %></span>
+          </button>
+        <% } else { %>
+          <a class="wishlist-btn" href="/login?next=<%= encodeURIComponent('/product/' + product.id) %>">♡ <span><%= t.wishlist %></span></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <% if (related.length) { %>
+  <div class="container">
+    <h2 class="section-title"><%= t.complete_look %></h2>
+    <div class="product-grid">
+      <% related.forEach(function(p){ %>
+        <%- include('partials/product-card', { product: p }) %>
+      <% }) %>
+    </div>
+  </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

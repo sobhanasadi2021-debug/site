@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow">Maison Noir</p>
+    <h1><%= heading %></h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <form class="filter-bar" method="get" action="/shop">
+      <% if (category !== 'all') { %><input type="hidden" name="category" value="<%= category %>"><% } %>
+      <input type="hidden" name="q" value="<%= q %>">
+      <span class="result-count"><%= products.length %> <%= t.pieces %></span>
+      <label><%= t.sort_by %>
+        <select name="sort" onchange="this.form.submit()">
+          <option value="featured" <%= sort === 'featured' ? 'selected' : '' %>><%= t.sort_featured %></option>
+          <option value="price-asc" <%= sort === 'price-asc' ? 'selected' : '' %>><%= t.sort_price_asc %></option>
+          <option value="price-desc" <%= sort === 'price-desc' ? 'selected' : '' %>><%= t.sort_price_desc %></option>
+          <option value="name" <%= sort === 'name' ? 'selected' : '' %>><%= t.sort_name %></option>
+        </select>
+      </label>
+    </form>
+
+    <% if (products.length === 0) { %>
+      <div class="empty-state">
+        <h2><%= t.nothing_found %></h2>
+        <p><%= t.explore_all %></p>
+        <a href="/shop" class="btn btn-outline"><%= t.collection_link %></a>
+      </div>
+    <% } else { %>
+      <div class="product-grid">
+        <% products.forEach(function(p){ %>
+          <%- include('partials/product-card', { product: p }) %>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

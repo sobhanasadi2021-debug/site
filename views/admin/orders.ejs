@@ -1,0 +1,71 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <h1 class="admin-title">Orders</h1>
+
+      <div class="filter-tabs">
+        <% ['all','pending','processing','shipped','delivered','cancelled'].forEach(function(s){ %>
+          <a href="/admin/orders?status=<%= s %><%= q ? '&q=' + encodeURIComponent(q) : '' %>" class="<%= status === s ? 'active' : '' %>">
+            <%= s.charAt(0).toUpperCase() + s.slice(1) %>
+          </a>
+        <% }) %>
+      </div>
+
+      <form class="filter-bar" method="get" action="/admin/orders">
+        <input type="hidden" name="status" value="<%= status %>">
+        <input type="search" name="q" placeholder="Search by order number, name or email…" value="<%= q %>">
+        <button class="btn btn-small btn-outline">Search</button>
+      </form>
+
+      <% if (orders.length === 0) { %>
+        <p class="muted">No orders match.</p>
+      <% } else { %>
+        <% orders.forEach(function(o){ %>
+          <div class="card order-admin-card">
+            <div class="order-admin-head">
+              <div>
+                <strong><%= o.number %></strong> — <%= o.name || o.email %>
+                <span class="muted">· <%= new Date(o.createdAt).toLocaleString() %></span>
+                <% if (o.discount > 0) { %><span class="status status-pending">coupon <%= o.couponCode %></span><% } %>
+              </div>
+              <div class="order-admin-actions">
+                <form method="post" action="/admin/orders/<%= o.id %>/status" class="inline-form">
+                  <select name="status" onchange="this.form.submit()">
+                    <% ['pending','processing','shipped','delivered','cancelled'].forEach(function(s){ %>
+                      <option value="<%= s %>" <%= o.status === s ? 'selected' : '' %>><%= s %></option>
+                    <% }) %>
+                  </select>
+                </form>
+                <form method="post" action="/admin/orders/<%= o.id %>/delete" class="inline-form"
+                      onsubmit="return confirm('Delete order <%= o.number %>?')">
+                  <button class="btn btn-small btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            <div class="order-admin-body">
+              <ul>
+                <% o.items.forEach(function(it){ %>
+                  <li><%= it.qty %> × <%= it.name %> — $<%= (it.qty * it.price).toFixed(2) %></li>
+                <% }) %>
+              </ul>
+              <div>
+                <p class="muted"><%= o.address %>, <%= o.city %> <%= o.zip %>, <%= o.country %></p>
+                <% if (o.discount > 0) { %>
+                  <p class="muted">Subtotal: $<%= Number(o.subtotal || o.total).toFixed(2) %> · Discount: -$<%= Number(o.discount).toFixed(2) %></p>
+                <% } %>
+                <p><strong>Total: $<%= Number(o.total).toFixed(2) %></strong></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

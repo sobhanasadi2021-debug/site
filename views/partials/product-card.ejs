@@ -1,0 +1,13 @@
+<article class="product-card">
+  <a href="/product/<%= product.id %>" class="card-media">
+    <img src="<%= product.image %>" alt="<%= product.name %>">
+    <% if ((product.stock || 0) <= 0) { %><span class="stock-badge out"><%= t.out_of_stock %></span><% } else if ((product.stock || 0) <= 5) { %><span class="stock-badge low"><%= t.low_stock %></span><% } %>
+    <span class="card-hover"><%= t.view_piece %></span>
+  </a>
+  <div class="card-body">
+    <h3><a href="/product/<%= product.id %>"><%= product.name %></a></h3>
+    <p class="card-price"><%= price(product.price) %></p>
+    <button class="btn btn-small add-to-bag" data-id="<%= product.id %>" data-name="<%= product.name %>" data-price="<%= product.price %>" data-image="<%= product.image %>"
+      <%= (product.stock || 0) <= 0 ? 'disabled style="opacity:.4;cursor:not-allowed"' : '' %>><%= t.add_to_bag %></button>
+  </div>
+</article>

@@ -1,0 +1,46 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container narrow">
+    <p class="eyebrow center">Maison Noir</p>
+    <h1 class="section-title"><%= t.checkout_title %></h1>
+
+    <div class="checkout-layout">
+      <form class="checkout-form card" id="checkout-form">
+        <h3><%= t.delivery_details %></h3>
+        <label><%= t.full_name %><input type="text" name="name" required value="<%= user ? user.name : '' %>"></label>
+        <label><%= t.email %><input type="email" name="email" required value="<%= user ? user.email : '' %>"></label>
+        <label><%= t.address %><input type="text" name="address" required value="<%= savedAddress && savedAddress.address ? savedAddress.address : '' %>"></label>
+        <div class="two-col">
+          <label><%= t.city %><input type="text" name="city" required value="<%= savedAddress && savedAddress.city ? savedAddress.city : '' %>"></label>
+          <label><%= t.postal_code %><input type="text" name="zip" required value="<%= savedAddress && savedAddress.zip ? savedAddress.zip : '' %>"></label>
+        </div>
+        <label><%= t.country %><input type="text" name="country" required value="<%= savedAddress && savedAddress.country ? savedAddress.country : '' %>"></label>
+
+        <div class="coupon-box">
+          <label><%= t.coupon_code %></label>
+          <div class="coupon-row">
+            <input type="text" id="coupon-input" placeholder="WELCOME10">
+            <button type="button" class="btn btn-outline btn-small" id="coupon-apply"><%= t.coupon_apply %></button>
+          </div>
+          <p id="coupon-status" class="muted" hidden></p>
+        </div>
+
+        <h3><%= t.payment %></h3>
+        <p class="muted"><%= t.payment_note %></p>
+        <div id="checkout-error" class="form-error" hidden></div>
+        <button type="submit" class="btn btn-gold btn-wide"><%= t.place_order %></button>
+      </form>
+
+      <aside class="order-summary card" id="checkout-summary">
+        <h3><%= t.order_summary %></h3>
+        <div id="summary-items"></div>
+        <div class="summary-row coupon-line" id="summary-discount" hidden><span><%= t.discount %></span><span id="discount-amount"></span></div>
+        <div class="summary-total"><span><%= t.total %></span><span id="summary-total"></span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

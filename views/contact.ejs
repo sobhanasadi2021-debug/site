@@ -1,0 +1,32 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow"><%= t.reply_day %></p>
+    <h1><%= t.contact_title %></h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-layout">
+    <form class="card contact-form" id="contact-form">
+      <h3><%= t.write_us %></h3>
+      <label><%= t.name %><input type="text" name="name" required></label>
+      <label><%= t.email %><input type="email" name="email" required></label>
+      <label><%= t.message %><textarea name="message" rows="6" required></textarea></label>
+      <div id="contact-success" class="form-success" hidden><%= t.contact_ok %></div>
+      <div id="contact-error" class="form-error" hidden></div>
+      <button type="submit" class="btn btn-gold btn-wide"><%= t.send_message %></button>
+    </form>
+
+    <aside class="contact-info">
+      <h3><%= t.flagships %></h3>
+      <p><%= settings.addressLine %></p>
+      <p><strong><%= t.email %></strong><br><%= settings.email %></p>
+      <p><strong><%= t.message %></strong><br><%= settings.phone %></p>
+    </aside>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

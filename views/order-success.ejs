@@ -1,0 +1,31 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container narrow center-text">
+    <div class="success-badge">✓</div>
+    <p class="eyebrow center"><%= t.thanks %>, <%= order.name %></p>
+    <h1 class="section-title"><%= t.order_confirmed %></h1>
+    <p class="order-number"><%= t.order %> <strong><%= order.number %></strong> — <%= t.order_sent %> <strong><%= order.email %></strong>.</p>
+
+    <div class="card order-recap">
+      <% order.items.forEach(function(it){ %>
+        <div class="recap-row">
+          <span><%= it.qty %> × <%= it.name %></span>
+          <span><%= price(it.qty * it.price) %></span>
+        </div>
+      <% }) %>
+      <% if (order.discount > 0) { %>
+        <div class="recap-row gold-text"><span><%= t.discount %> <%= order.couponCode ? '(' + order.couponCode + ')' : '' %></span><span>-<%= price(order.discount) %></span></div>
+      <% } %>
+      <div class="summary-total"><span><%= t.total %></span><span><%= price(order.total) %></span></div>
+    </div>
+
+    <div class="center-btn">
+      <a href="/shop" class="btn btn-gold"><%= t.continue_browsing %></a>
+      <% if (user && user.role === 'admin') { %><a href="/admin/orders" class="btn btn-outline"><%= t.admin_panel %></a><% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,19 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container auth-wrap">
+    <form class="auth-card card" method="post" action="/register">
+      <p class="eyebrow center"><%= t.join_house %></p>
+      <h1 class="section-title"><%= t.create_account_link %></h1>
+      <% if (error) { %><p class="form-error"><%= error %></p><% } %>
+      <label><%= t.name %><input type="text" name="name" required placeholder="Your name"></label>
+      <label><%= t.email %><input type="email" name="email" required placeholder="you@example.com"></label>
+      <label><%= t.password %><input type="password" name="password" required minlength="6" placeholder="<%= t.password_hint %>"></label>
+      <button type="submit" class="btn btn-gold btn-wide"><%= t.create_account %></button>
+      <p class="auth-alt"><%= t.already_member %> <a href="/login"><%= t.sign_in %></a></p>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

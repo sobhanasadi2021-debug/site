@@ -1,0 +1,110 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<% if (flash) { %>
+  <div class="container narrow"><p class="form-<%= flash.type %>"><%= flash.text %></p></div>
+<% } %>
+
+<section class="section">
+  <div class="container">
+    <p class="eyebrow center"><%= t.welcome_back %>, <%= user.name %></p>
+    <h1 class="section-title"><%= t.my_account %></h1>
+
+    <div class="account-tabs">
+      <a href="/account?tab=orders" class="<%= tab === 'orders' ? 'active' : '' %>"><%= t.order_history %></a>
+      <a href="/account?tab=wishlist" class="<%= tab === 'wishlist' ? 'active' : '' %>"><%= t.wishlist %> (<%= wishlist.length %>)</a>
+      <a href="/account?tab=profile" class="<%= tab === 'profile' ? 'active' : '' %>"><%= t.profile %></a>
+      <a href="/account?tab=address" class="<%= tab === 'address' ? 'active' : '' %>"><%= t.addresses %></a>
+    </div>
+
+    <% if (tab === 'orders') { %>
+      <div class="card account-card">
+        <% if (orders.length === 0) { %>
+          <p class="muted"><%= t.no_orders %></p>
+          <a href="/shop" class="btn btn-gold"><%= t.discover %></a>
+        <% } else { %>
+          <table class="table">
+            <thead><tr><th><%= t.order %></th><th><%= t.date %></th><th><%= t.items %></th><th><%= t.total %></th><th><%= t.status %></th><th></th></tr></thead>
+            <tbody>
+              <% orders.forEach(function(o){ %>
+                <tr>
+                  <td><%= o.number %></td>
+                  <td><%= dateFmt(o.createdAt) %></td>
+                  <td><%= o.items.reduce(function(s,i){ return s + i.qty; }, 0) %></td>
+                  <td><%= price(o.total) %></td>
+                  <td><span class="status status-<%= o.status %>"><%= o.status %></span></td>
+                  <td>
+                    <% if (o.status === 'pending') { %>
+                      <form method="post" action="/account/orders/<%= o.id %>/cancel" class="inline-form"
+                            onsubmit="return confirm('<%= lang === 'fa' ? 'لغو این سفارش؟' : 'Cancel this order?' %>')">
+                        <button class="btn btn-small btn-danger"><%= t.cancel %></button>
+                      </form>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+
+    <% } else if (tab === 'wishlist') { %>
+      <div class="card account-card">
+        <% if (wishlist.length === 0) { %>
+          <p class="muted"><%= t.no_wishlist %></p>
+        <% } else { %>
+          <div class="product-grid">
+            <% wishlist.forEach(function(p){ %>
+              <%- include('partials/product-card', { product: p }) %>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+
+    <% } else if (tab === 'profile') { %>
+      <div class="account-grid">
+        <aside class="card account-card">
+          <h3><%= t.profile %></h3>
+          <p><strong><%= user.name %></strong></p>
+          <p class="muted"><%= user.email %></p>
+          <p class="muted"><%= t.member_role %>: <%= user.role %></p>
+          <% if (user.role === 'admin') { %>
+            <a href="/admin" class="btn btn-outline btn-wide"><%= t.open_admin %></a>
+          <% } %>
+        </aside>
+        <div class="card account-card">
+          <h3><%= t.update_profile %></h3>
+          <form method="post" action="/profile">
+            <label><%= t.name %><input type="text" name="name" required value="<%= user.name %>"></label>
+            <label><%= t.email %><input type="email" value="<%= user.email %>" disabled></label>
+            <h3 class="mt"><%= t.change_password %></h3>
+            <label><%= t.current_password %><input type="password" name="currentPassword" autocomplete="current-password"></label>
+            <label><%= t.new_password %><input type="password" name="newPassword" minlength="6" autocomplete="new-password"></label>
+            <button type="submit" class="btn btn-gold btn-wide"><%= t.save_changes %></button>
+          </form>
+        </div>
+      </div>
+
+    <% } else { %>
+      <div class="card account-card narrow-form">
+        <h3><%= t.addresses %></h3>
+        <% if (addressData && addressData.address) { %>
+          <p class="muted"><%= t.address_saved %>: <%= addressData.address %>, <%= addressData.city %> <%= addressData.zip %>, <%= addressData.country %></p>
+        <% } else { %>
+          <p class="muted"><%= t.no_address %></p>
+        <% } %>
+        <form method="post" action="/profile/address">
+          <label><%= t.address %><input type="text" name="address" value="<%= addressData ? addressData.address : '' %>" required></label>
+          <div class="two-col">
+            <label><%= t.city %><input type="text" name="city" value="<%= addressData ? addressData.city : '' %>" required></label>
+            <label><%= t.postal_code %><input type="text" name="zip" value="<%= addressData ? addressData.zip : '' %>" required></label>
+          </div>
+          <label><%= t.country %><input type="text" name="country" value="<%= addressData ? addressData.country : '' %>" required></label>
+          <button type="submit" class="btn btn-gold btn-wide"><%= t.save_changes %></button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

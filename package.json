@@ -1,0 +1,20 @@
+{
+  "name": "maison-noir",
+  "version": "1.0.0",
+  "description": "Maison Noir — luxury clothing boutique with admin & user panels",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node data/seed.js && node data/make-banners.js && node data/fetch-unsplash.js && node data/fetch-banners.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.3.0"
+  }
+}

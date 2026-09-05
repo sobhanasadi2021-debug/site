@@ -1,0 +1,42 @@
+<header class="site-header">
+  <div class="topbar">
+    <p><%= t.topbar_shipping %> &nbsp;·&nbsp; <%= t.topbar_atelier %></p>
+  </div>
+  <div class="header-main">
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <nav class="main-nav">
+      <a href="/" class="<%= path === '/' ? 'active' : '' %>"><%= t.nav_home %></a>
+      <a href="/shop" class="<%= path.startsWith('/shop') || path.startsWith('/product') ? 'active' : '' %>"><%= t.nav_shop %></a>
+      <div class="dropdown">
+        <a href="/shop" class="drop-link"><%= t.nav_categories %> ▾</a>
+        <div class="dropdown-menu">
+          <% categories.forEach(function(cat){ %>
+            <a href="/category/<%= cat.slug %>"><%= lang === 'fa' ? cat.name_fa : cat.name %></a>
+          <% }) %>
+        </div>
+      </div>
+      <a href="/about" class="<%= path === '/about' ? 'active' : '' %>"><%= t.nav_maison %></a>
+      <a href="/contact" class="<%= path === '/contact' ? 'active' : '' %>"><%= t.nav_contact %></a>
+    </nav>
+    <a class="logo" href="/"><%= settings.storeName.split(' ')[0] %> <span><%= settings.storeName.split(' ').slice(1).join(' ') %></span></a>
+    <div class="header-actions">
+      <form class="search-form" action="/shop" method="get">
+        <input type="search" name="q" placeholder="<%= t.search_ph %>" value="<%= typeof q !== 'undefined' ? q : '' %>">
+      </form>
+      <div class="lang-switch">
+        <a href="/lang/en" class="<%= lang === 'en' ? 'active' : '' %>">EN</a>
+        <span>|</span>
+        <a href="/lang/fa" class="<%= lang === 'fa' ? 'active' : '' %>">فا</a>
+      </div>
+      <% if (user) { %>
+        <a href="/account" class="header-link"><%= t.my_account %></a>
+        <% if (user.role === 'admin') { %><a href="/admin" class="header-link gold"><%= t.admin_panel %></a><% } %>
+        <form action="/logout" method="post" class="inline-form"><button type="submit" class="link-btn"><%= t.logout %></button></form>
+      <% } else { %>
+        <a href="/login" class="header-link"><%= t.sign_in %></a>
+      <% } %>
+      <a href="/cart" class="cart-link" aria-label="Shopping bag"><%= t.bag %> <span class="bag-count" id="bag-count">0</span></a>
+    </div>
+  </div>
+</header>
+<main>

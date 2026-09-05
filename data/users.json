@@ -1,0 +1,49 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@maisonnoir.com",
+    "password": "29a2bf3b8fc734a4ff226a4a941a4397:fb93baa1c8739e16279b65a1a92e9efc24ac72595298c94664d9bae318763f344a551357ec92e3405bc158635337d42c8c962583c020d7cb26102e8666ef7297",
+    "role": "admin",
+    "createdAt": "2026-09-05T12:47:00.911Z",
+    "wishlist": [],
+    "address": null
+  },
+  {
+    "id": 2,
+    "name": "Demo Customer",
+    "email": "customer@maisonnoir.com",
+    "password": "7793c16d0431ebf8e06808e93adee337:1a117431ae44ff2b0c5497055077f0a786564a9e7f949221512fe9ce81213c04584e2e4b8d438ed58cfc36c9ea5cffb6d181b0fc4579a117d8e4302591491862",
+    "role": "user",
+    "createdAt": "2026-09-05T12:47:00.961Z",
+    "wishlist": [
+      7
+    ],
+    "address": {
+      "address": "5 Ave Montaigne",
+      "city": "Paris",
+      "zip": "75008",
+      "country": "France"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Test User",
+    "email": "test@example.com",
+    "password": "8bb17d260570364e836c3bed6f2ccc8b:2d9b7a35a5e4489d66d6fb428296fcbc7f8ed51a6c4db35642ba5c079cff78ac03cb79b29c9f6c780f5a6fa1c814a27d9a16f53f0df8093f4cda21615195652a",
+    "role": "user",
+    "createdAt": "2026-09-05T13:19:51.151Z",
+    "wishlist": [],
+    "address": null
+  },
+  {
+    "id": 4,
+    "name": "Sobhan Asadi",
+    "email": "sobhan.asadi2026@gmail.com",
+    "password": "6b72db5e309786ed169d5fe74a5a900f:97acaa864d6b8c2435b08ac963fca4f1f0644fc88db3d648caeac113637a3cdd3122cb3631c0e8c5cb90c2653dbfaf860d39043e835f2179b8347e8f3869af2d",
+    "role": "user",
+    "createdAt": "2026-09-05T16:09:49.430Z",
+    "wishlist": [],
+    "address": null
+  }
+]

@@ -1,0 +1,22 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow"><%= t.client_care %></p>
+    <h1><%= t.faq_title %></h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow">
+    <% t.faq.forEach(function(faq){ %>
+      <details class="faq-item">
+        <summary><%= faq[0] %></summary>
+        <p><%= faq[1] %></p>
+      </details>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

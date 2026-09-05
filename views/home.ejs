@@ -1,0 +1,83 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<!-- ================= HERO SLIDER ================= -->
+<section class="hero-slider" id="hero-slider">
+  <% slider.forEach(function(slide, i){ %>
+    <div class="slide <%= i === 0 ? 'active' : '' %>" style="background-image:url('<%= slide.image %>')">
+      <div class="slide-shade"></div>
+      <div class="slide-content">
+        <p class="eyebrow"><%= slide.eyebrow %></p>
+        <h1><%= slide.title %></h1>
+        <p class="slide-text"><%= slide.text %></p>
+        <a href="/shop" class="btn btn-gold"><%= t.discover %></a>
+      </div>
+    </div>
+  <% }) %>
+  <button class="slider-arrow prev" aria-label="Previous slide">‹</button>
+  <button class="slider-arrow next" aria-label="Next slide">›</button>
+  <div class="slider-dots">
+    <% slider.forEach(function(s, i){ %>
+      <button class="dot <%= i === 0 ? 'active' : '' %>" data-index="<%= i %>" aria-label="Slide <%= i+1 %>"></button>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ================= CATEGORY TILES ================= -->
+<section class="section category-tiles">
+  <div class="container">
+    <p class="eyebrow center"><%= t.curated %></p>
+    <h2 class="section-title"><%= t.shop_by_category %></h2>
+    <div class="tile-grid">
+      <% [
+        {slug:'tshirts', img:'signature-noir-tee'}, {slug:'shirts', img:'milano-dress-shirt'},
+        {slug:'jeans', img:'heritage-indigo-jeans'}, {slug:'shoes', img:'prestige-leather-sneakers'},
+        {slug:'jackets', img:'noir-denim-chore-coat'}, {slug:'accessories', img:'sovereign-leather-tote'}
+      ].forEach(function(cat, i){
+        const label = catLocalized(categories.find(function(c){ return c.slug === cat.slug; })); %>
+        <a href="/category/<%= cat.slug %>" class="tile">
+          <img src="/images/products/<%= cat.img %>.jpg" alt="<%= label %>" onerror="this.src='/images/products/<%= cat.img %>.svg'">
+          <span class="tile-label"><%= label %></span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURED ================= -->
+<section class="section alt-bg">
+  <div class="container">
+    <p class="eyebrow center"><%= t.icons %></p>
+    <h2 class="section-title"><%= t.featured %></h2>
+    <div class="product-grid">
+      <% featured.forEach(function(p){ %>
+        <%- include('partials/product-card', { product: p }) %>
+      <% }) %>
+    </div>
+    <div class="center-btn"><a href="/shop" class="btn btn-outline"><%= t.view_all %></a></div>
+  </div>
+</section>
+
+<!-- ================= LATEST ================= -->
+<section class="section">
+  <div class="container">
+    <p class="eyebrow center"><%= t.just_arrived %></p>
+    <h2 class="section-title"><%= t.new_in_atelier %></h2>
+    <div class="product-grid">
+      <% latest.forEach(function(p){ %>
+        <%- include('partials/product-card', { product: p }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES BAND ================= -->
+<section class="services-band">
+  <div class="container service-grid">
+    <div><h3><%= t.service_1t %></h3><p><%= t.service_1p %></p></div>
+    <div><h3><%= t.service_2t %></h3><p><%= t.service_2p %></p></div>
+    <div><h3><%= t.service_3t %></h3><p><%= t.service_3p %></p></div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

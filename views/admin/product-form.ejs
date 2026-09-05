@@ -1,0 +1,77 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <h1 class="admin-title"><%= product ? 'Edit Product' : 'Add New Product' %></h1>
+
+      <% if (typeof errors !== 'undefined' && errors.length) { %>
+        <div class="form-error">
+          <ul><% errors.forEach(function(e){ %><li><%= e %></li><% }) %></ul>
+        </div>
+      <% } %>
+
+      <form class="card product-form" method="post" enctype="multipart/form-data"
+            action="<%= product ? '/admin/products/' + product.id : '/admin/products' %>">
+        <label>Product Name
+          <input type="text" name="name" required
+                 value="<%= product ? product.name : (typeof values !== 'undefined' && values ? values.name : '') %>">
+        </label>
+
+        <div class="three-col">
+          <label>Category
+            <select name="category" required>
+              <option value="">— Select —</option>
+              <% categories.forEach(function(cat){ %>
+                <option value="<%= cat.slug %>" <%= (product && product.category === cat.slug) ? 'selected' : '' %>><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </label>
+          <label>Price (USD)
+            <input type="number" name="price" step="0.01" min="0.01" required
+                   value="<%= product ? product.price : (typeof values !== 'undefined' && values ? values.price : '') %>">
+          </label>
+          <label>Stock Quantity
+            <input type="number" name="stock" min="0" step="1"
+                   value="<%= product ? (product.stock || 0) : (typeof values !== 'undefined' && values ? values.stock : 10) %>">
+          </label>
+        </div>
+
+        <label>Description
+          <textarea name="description" rows="5"
+                    placeholder="Describe the fabric, fit and finish…"><%= product ? product.description : (typeof values !== 'undefined' && values ? values.description : '') %></textarea>
+        </label>
+
+        <label>Upload Image
+          <input type="file" name="image" accept="image/*">
+        </label>
+        <label class="muted">…or paste an image URL
+          <input type="url" name="imageUrl" placeholder="https://… or /images/products/xxx.jpg"
+                 value="<%= product && !product.image.startsWith('/images/uploads/') ? product.image : (typeof values !== 'undefined' && values ? values.imageUrl : '') %>">
+        </label>
+
+        <% if (product) { %>
+          <div class="current-image">
+            <p class="muted">Current image:</p>
+            <img class="table-thumb large" src="<%= product.image %>" alt="Current product image">
+          </div>
+        <% } %>
+
+        <label class="check-label">
+          <input type="checkbox" name="featured" <%= (product && product.featured) ? 'checked' : '' %>>
+          Show on the homepage as a Featured Piece
+        </label>
+
+        <div class="center-btn">
+          <button type="submit" class="btn btn-gold"><%= product ? 'Save Changes' : 'Add Product' %></button>
+          <a href="/admin/products" class="btn btn-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

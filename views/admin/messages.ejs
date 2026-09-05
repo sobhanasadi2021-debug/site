@@ -1,0 +1,38 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <h1 class="admin-title">Client Messages</h1>
+
+      <% if (messages.length === 0) { %>
+        <p class="muted">No messages yet.</p>
+      <% } else { %>
+        <% messages.forEach(function(m){ %>
+          <div class="card message-card <%= m.read ? '' : 'unread' %>">
+            <div class="message-head">
+              <% if (!m.read) { %><span class="unread-dot" title="Unread"></span><% } %>
+              <strong><%= m.name %></strong> <span class="muted">&lt;<%= m.email %>&gt;</span>
+              <span class="muted">· <%= new Date(m.createdAt).toLocaleString() %></span>
+              <span class="spacer"></span>
+              <form method="post" action="/admin/messages/<%= m.id %>/read" class="inline-form">
+                <input type="hidden" name="read" value="<%= m.read ? '0' : '1' %>">
+                <button class="btn btn-small btn-outline"><%= m.read ? 'Mark unread' : 'Mark read' %></button>
+              </form>
+              <form method="post" action="/admin/messages/<%= m.id %>/delete" class="inline-form"
+                    onsubmit="return confirm('Delete this message?')">
+                <button class="btn btn-small btn-danger">Delete</button>
+              </form>
+            </div>
+            <p><%= m.message %></p>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

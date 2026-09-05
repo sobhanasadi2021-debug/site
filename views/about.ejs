@@ -1,0 +1,39 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow"><%= t.since %></p>
+    <h1><%= t.maison_title %></h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container about-grid">
+    <div>
+      <h2 class="section-title"><%= t.obsession_title %></h2>
+      <p><%= t.about_p1 %></p>
+      <p><%= t.about_p2 %></p>
+      <blockquote class="pull-quote"><%= t.quote %><cite><%= t.quote_by %></cite></blockquote>
+    </div>
+    <aside class="about-facts card">
+      <div><strong>38</strong><span><%= t.years %></span></div>
+      <div><strong>214</strong><span><%= t.steps %></span></div>
+      <div><strong>1</strong><span><%= t.artisan %></span></div>
+      <div><strong>∞</strong><span><%= t.repairs %></span></div>
+    </aside>
+  </div>
+</section>
+
+<section class="section alt-bg">
+  <div class="container">
+    <h2 class="section-title center"><%= t.houses_title %></h2>
+    <div class="value-grid">
+      <div class="card"><h3><%= t.house_1t %></h3><p><%= t.house_1p %></p></div>
+      <div class="card"><h3><%= t.house_2t %></h3><p><%= t.house_2p %></p></div>
+      <div class="card"><h3><%= t.house_3t %></h3><p><%= t.house_3p %></p></div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

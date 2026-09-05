@@ -1,0 +1,11 @@
+<aside class="admin-sidebar card">
+  <h3>Admin Panel</h3>
+  <a href="/admin" class="<%= path === '/admin' ? 'active' : '' %>">◧ Dashboard</a>
+  <a href="/admin/products" class="<%= path.startsWith('/admin/products') ? 'active' : '' %>">▤ Products</a>
+  <a href="/admin/orders" class="<%= path === '/admin/orders' ? 'active' : '' %>">⬓ Orders</a>
+  <a href="/admin/coupons" class="<%= path === '/admin/coupons' ? 'active' : '' %>">◎ Discount Codes</a>
+  <a href="/admin/users" class="<%= path === '/admin/users' ? 'active' : '' %>">◫ Users</a>
+  <a href="/admin/messages" class="<%= path === '/admin/messages' ? 'active' : '' %>">✉ Messages</a>
+  <a href="/admin/settings" class="<%= path === '/admin/settings' ? 'active' : '' %>">⚙ Boutique Settings</a>
+  <a href="/" class="muted">← Back to Boutique</a>
+</aside>

@@ -1,0 +1,65 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <div class="admin-head-row">
+        <h1 class="admin-title">Products</h1>
+        <a href="/admin/products/new" class="btn btn-gold">+ Add Product</a>
+      </div>
+
+      <form class="filter-bar" method="get" action="/admin/products">
+        <input type="search" name="q" placeholder="Search products…" value="<%= q %>">
+        <label>Category
+          <select name="category" onchange="this.form.submit()">
+            <option value="all" <%= category === 'all' ? 'selected' : '' %>>All</option>
+            <% categories.forEach(function(cat){ %>
+              <option value="<%= cat.slug %>" <%= category === cat.slug ? 'selected' : '' %>><%= cat.name %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label>Featured
+          <select name="featured" onchange="this.form.submit()">
+            <option value="all" <%= featured === 'all' ? 'selected' : '' %>>All</option>
+            <option value="yes" <%= featured === 'yes' ? 'selected' : '' %>>Featured</option>
+            <option value="no" <%= featured === 'no' ? 'selected' : '' %>>Not featured</option>
+          </select>
+        </label>
+        <button class="btn btn-small btn-outline">Filter</button>
+      </form>
+
+      <table class="table card">
+        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Featured</th><th>Actions</th></tr></thead>
+        <tbody>
+          <% products.forEach(function(p){ %>
+            <tr>
+              <td><img class="table-thumb" src="<%= p.image %>" alt="<%= p.name %>"></td>
+              <td><%= p.name %></td>
+              <td><%= p.category %></td>
+              <td>$<%= Number(p.price).toFixed(2) %></td>
+              <td>
+                <form method="post" action="/admin/products/<%= p.id %>/stock" class="inline-form stock-form">
+                  <input type="number" name="stock" min="0" value="<%= p.stock || 0 %>" class="stock-input" onchange="this.form.submit()">
+                </form>
+                <% if ((p.stock || 0) <= 5) { %><span class="stock-pill <%= (p.stock || 0) <= 0 ? 'out' : 'low' %>"><%= p.stock || 0 %></span><% } %>
+              </td>
+              <td><%= p.featured ? '★' : '—' %></td>
+              <td class="actions">
+                <a class="btn btn-small btn-outline" href="/admin/products/<%= p.id %>/edit">Edit</a>
+                <form method="post" action="/admin/products/<%= p.id %>/delete" class="inline-form"
+                      onsubmit="return confirm('Delete “<%= p.name %>” permanently?')">
+                  <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

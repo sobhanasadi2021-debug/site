@@ -1,0 +1,104 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="section admin">
+  <div class="container admin-layout">
+    <%- include('sidebar') %>
+
+    <div class="admin-content">
+      <div class="admin-head-row">
+        <h1 class="admin-title">Dashboard</h1>
+        <div class="quick-actions">
+          <a href="/admin/products/new" class="btn btn-gold btn-small">+ Add Product</a>
+          <a href="/admin/coupons" class="btn btn-outline btn-small">Discount Codes</a>
+          <a href="/admin/settings" class="btn btn-outline btn-small">Settings</a>
+        </div>
+      </div>
+
+      <div class="stat-grid wide">
+        <div class="stat-card"><span class="stat-value">$<%= stats.revenue.toFixed(2) %></span><span class="stat-label">Total Revenue</span></div>
+        <div class="stat-card"><span class="stat-value"><%= stats.orders %></span><span class="stat-label">Orders</span></div>
+        <div class="stat-card"><span class="stat-value"><%= stats.pending %></span><span class="stat-label">Pending Orders</span></div>
+        <div class="stat-card"><span class="stat-value">$<%= stats.aov.toFixed(2) %></span><span class="stat-label">Avg Order Value</span></div>
+        <div class="stat-card"><span class="stat-value"><%= stats.products %></span><span class="stat-label">Products</span></div>
+        <div class="stat-card <%= stats.lowStock > 0 ? 'warn' : '' %>"><span class="stat-value"><%= stats.lowStock %></span><span class="stat-label">Low Stock (≤5)</span></div>
+        <div class="stat-card"><span class="stat-value"><%= stats.users %></span><span class="stat-label">Users</span></div>
+        <div class="stat-card <%= stats.messages > 0 ? 'warn' : '' %>"><span class="stat-value"><%= stats.messages %></span><span class="stat-label">Unread Messages</span></div>
+      </div>
+
+      <div class="dashboard-two-col">
+        <div class="card chart-card">
+          <h2 class="admin-subtitle">Revenue · Last 14 Days</h2>
+          <div class="bar-chart">
+            <% chartDays.forEach(function(d){ %>
+              <div class="bar-col" title="<%= d.label %>: $<%= d.revenue.toFixed(2) %>">
+                <div class="bar" style="height:<%= Math.max(3, Math.round(d.revenue / maxRevenue * 100)) %>%"></div>
+                <span class="bar-label"><%= d.label.split(' ')[1] %></span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <h2 class="admin-subtitle">Revenue by Category</h2>
+          <div class="cat-bars">
+            <% const maxC = Math.max(catRevenue[0] ? catRevenue[0].revenue : 1, 1); %>
+            <% catRevenue.forEach(function(c){ %>
+              <div class="cat-row">
+                <span class="cat-name"><%= c.name %></span>
+                <div class="cat-track"><div class="cat-fill" style="width:<%= Math.round(c.revenue / maxC * 100) %>%"></div></div>
+                <span class="cat-amount">$<%= c.revenue.toFixed(0) %></span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-two-col">
+        <div>
+          <h2 class="admin-subtitle">Recent Orders</h2>
+          <% if (recentOrders.length === 0) { %>
+            <p class="muted">No orders yet.</p>
+          <% } else { %>
+            <table class="table card">
+              <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody>
+                <% recentOrders.forEach(function(o){ %>
+                  <tr>
+                    <td><%= o.number %></td>
+                    <td><%= o.name || o.email %></td>
+                    <td>$<%= Number(o.total).toFixed(2) %></td>
+                    <td><span class="status status-<%= o.status %>"><%= o.status %></span></td>
+                    <td><%= new Date(o.createdAt).toLocaleDateString() %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+
+        <div>
+          <h2 class="admin-subtitle">Low Stock Alerts</h2>
+          <% if (lowStock.length === 0) { %>
+            <p class="muted">All products are well stocked.</p>
+          <% } else { %>
+            <table class="table card">
+              <thead><tr><th>Product</th><th>Stock</th><th></th></tr></thead>
+              <tbody>
+                <% lowStock.forEach(function(p){ %>
+                  <tr>
+                    <td><%= p.name %></td>
+                    <td><span class="stock-pill <%= (p.stock || 0) <= 0 ? 'out' : 'low' %>"><%= p.stock || 0 %></span></td>
+                    <td><a class="btn btn-small btn-outline" href="/admin/products/<%= p.id %>/edit">Restock</a></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
